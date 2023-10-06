@@ -20,4 +20,6 @@ RUN sbt reload
 
 EXPOSE 8000
 
-RUN sbt run
+ENTRYPOINT ["sbt"]
+
+CMD ["run"]
