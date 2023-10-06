@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt-get update
 sudo apt-get install ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -15,22 +17,44 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 dockerd-rootless-setuptool.sh install
 
 git clone https://github.com/txrm/webserver-sample.git
-
-
-# Build and run the webserver-sample Docker container
 cd webserver-sample
-docker build -t webserver-sample .
-docker run -d -p 8000:8000 --pid=host webserver-sample
+docker build -t webserver-sample:latest .
+docker run -d -p 8000:8000 --name webserver-sample-container --pid=host webserver-sample:latest
+
+
 
 
 if ! docker images | grep -q "nginx"; then
     docker pull nginx:latest
 fi
 
-if [ "$(docker ps -q -f name=nginx-proxy)" ]; then
-    echo "The nginx proxy container is already running."
+
+if [ "$(docker ps -q -f name=nginx-reverse)" ]; then
+    echo "The nginx reverse proxy container is already running."
+    docker rm -f nginx-reverse
 else
-    docker run -d -p 80:80 --name nginx-proxy --link webserver-sample:webserver nginx
+    #FINALLY
+    cat <<'EOF' > nginx-reverse-proxy.conf
+server {
+    listen 80;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    location / {
+         proxy_pass http://webserver-sample-container:8000;
+
+         proxy_set_header   Host $host;
+         proxy_set_header   X-Real-IP $remote_addr;
+         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header   X-Forwarded-Host $server_name;
+    }
+}
+EOF
+
+    # LINK CONTAINERS
+    docker run -d -p 12345:80 --name nginx-reverse -v $(pwd)/nginx-reverse-proxy.conf:/etc/nginx/conf.d/default.conf --link webserver-sample-container:webserver-sample-container nginx
 fi
 
 echo "Setup completed."
+
