@@ -6,7 +6,6 @@ import akka.http.scaladsl.server.Directives._
 import sys.process._
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.io.StdIn
 import scala.util.{Failure, Success}
 
 
@@ -33,17 +32,12 @@ object Main {
     val bindingFuture = Http().newServerAt("localhost", 8000).bind(route)
 
     bindingFuture
-      .flatMap { binding =>
-        println(s"Server online at http://localhost:8000/")
-        StdIn.readLine("Press ENTER to stop...")
-        binding.unbind().flatMap { _ =>
-          println("Shutting down server...")
-          system.terminate()
-        }
-      }
       .onComplete {
-        case Success(_) => println("Server terminated.")
-        case Failure(ex) => println(s"Server terminated with error: ${ex.getMessage}")
+        case Success(binding) =>
+          println(s"Server online at http://localhost:8000/")
+        case Failure(ex) =>
+          println(s"Server could not bind to port 8000: ${ex.getMessage}")
+          system.terminate()
       }
   }
 
