@@ -1,10 +1,10 @@
-FROM adoptopenjdk/openjdk17:alpine AS base-builder
+FROM eclipse-temurin:17-alpine AS base-builder
 ARG SBT_VER=1.9.6
 RUN apk add --no-cache bash
 ENV JAVA_HOME="/usr/lib/jvm/default-jvm/"
 ENV PATH=$PATH:${JAVA_HOME}/bin
 RUN \
-	wget -O sbt-$SBT_VER.tgz https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.tgz && \
+	wget -O sbt-$SBT_VER.tgz https://github.com/sbt/sbt/releases/download/v$SBT_VER/sbt-$SBT_VER.tgz && \
   	tar -xzvf sbt-$SBT_VER.tgz && \
   	rm sbt-$SBT_VER.tgz
 
@@ -22,7 +22,7 @@ FROM sbt-builder as builder
 COPY src/ src/
 RUN sbt assembly
 
-FROM adoptopenjdk/openjdk17:alpine-jre  AS base-core
+FROM eclipse-temurin:17-jre-alpine  AS base-core
 ENV JAVA_HOME="/usr/lib/jvm/default-jvm/"
 RUN apk add -v --update ttf-dejavu
 ENV PATH=$PATH:${JAVA_HOME}/bin
