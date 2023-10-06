@@ -14,24 +14,10 @@ ENV PATH=$PATH:/sbt/bin/
 FROM base-builder AS sbt-builder
 WORKDIR /build
 COPY project/plugins.sbt project/
-COPY build.sbt .
-RUN sbt assembly
-
-FROM sbt-builder as builder
 COPY src/ src/
-RUN sbt assembly
-
-FROM eclipse-temurin:17-jre-alpine  AS base-core
-ENV JAVA_HOME="/usr/lib/jvm/default-jvm/"
-RUN apk add -v --update ttf-dejavu
-ENV PATH=$PATH:${JAVA_HOME}/bin
-
-
-FROM base-core
-WORKDIR /lc-core
-COPY --from=builder /build/target/scala-2.13/webserver-sample.jar .
-RUN mkdir data/
+COPY build.sbt .
+RUN sbt reload
 
 EXPOSE 8000
 
-CMD [ "java", "-jar", "webserver-sample.jar" ]
+RUN sbt run

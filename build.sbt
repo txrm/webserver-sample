@@ -16,7 +16,8 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-http" % AkkaHTTPVersion,
       "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHTTPVersion,
       "com.typesafe.play" %% "play-json" % "2.10.0",
-      "org.slf4j" % "slf4j-simple" % "2.0.8"
+      "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
+      "ch.qos.logback" % "logback-classic" % "1.4.7"
     ),
     assembly / assemblyJarName := "webserver-sample.jar",
     assembly / assemblyMergeStrategy := {
