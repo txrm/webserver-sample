@@ -13,7 +13,6 @@ ENV PATH=$PATH:/sbt/bin/
 
 FROM base-builder AS sbt-builder
 WORKDIR /build
-COPY lib/ lib/
 COPY project/plugins.sbt project/
 COPY build.sbt .
 RUN sbt assembly
