@@ -16,7 +16,7 @@ Screenshots:
 
 #### TODO
 - [ ] Remake provisioning in Ansible.
-- [ ] Shorten build time, preferably using something else instead of Scala.
+- [ ] Shorten build time, preferably using something else instead of Scala + SBT.
 - [ ] Implement TLS.
 
 
