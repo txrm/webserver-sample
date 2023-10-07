@@ -2,27 +2,12 @@ import scala.concurrent.Future
 import scala.sys.process._
 import scala.concurrent.ExecutionContext.Implicits.global
 
+
 object MetricsCollector {
   def collectSystemMetrics(): Future[String] = Future {
-    try {
-      val output = new StringBuilder
-
-      val process = Process("top -l 1").run(ProcessLogger(line => output.append(line).append("\n")))
-
-      val exitCode = process.exitValue()
-
-      if (exitCode == 0) {
-        // Create JSON string with the collected metrics
-        val metric =
-          s"""{
-            "topOutput": "${output.toString.trim}"
-          }"""
-        metric
-      } else {
-        throw new RuntimeException(s"Error running 'top' command (exit code: $exitCode)")
-      }
-    } catch {
-      case ex: Exception => throw new RuntimeException("Error getting system metrics, check OS", ex)
-    }
+    // Run the 'top' command and capture its output
+    // I have a Mac so to test I used the -l argument in testing instead of the -b
+    val output = Process("top -n 1 -b").!!.trim
+    output
   }
 }

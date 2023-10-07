@@ -33,4 +33,4 @@ COPY --from=builder /build/target/scala-2.13/webserver-sample.jar .
 
 EXPOSE 8000
 
-CMD [ "java", "-jar", "webserver-sample.jar" ]
+CMD [ "java", "-server", "-jar", "webserver-sample.jar" ]

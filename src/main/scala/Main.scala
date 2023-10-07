@@ -12,7 +12,7 @@ object Main {
 
     val metricsData = mutable.Map[String, Long]()
 
-    // Define routes
+    // Defining endpoint at root path
     val route = pathSingleSlash {
       get {
         onComplete(MetricsCollector.collectSystemMetrics()) {

@@ -1,10 +1,7 @@
-import play.api.libs.json.{Json, JsValue}
-import play.api.libs.json.Json.prettyPrint
 
 object MetricsVisualization {
-  def generateMetricsPage(metricsJson: String): String = {
+  def generateMetricsPage(metricsinput: String): String = {
     try {
-      val prettyMetrics = prettifyMetrics(metricsJson)
 
       // HTML and CSS code for the visualization
       val html =
@@ -30,7 +27,7 @@ object MetricsVisualization {
         </head>
         <body>
           <h1>System Metrics</h1>
-          <pre>$prettyMetrics</pre>
+          <pre>$metricsinput</pre>
         </body>
         </html>
         """
@@ -39,19 +36,6 @@ object MetricsVisualization {
     } catch {
       case ex: Exception =>
         s"Error generating metrics page: ${ex.getMessage}"
-    }
-  }
-
-  private def prettifyMetrics(metricsJson: String): String = {
-    try {
-      val json: JsValue = Json.parse(metricsJson)
-
-      val prettyMetrics: String = prettyPrint(json)
-
-      prettyMetrics
-    } catch {
-      case ex: Exception =>
-        s"Error formatting and prettifying metrics: ${ex.getMessage}"
     }
   }
 }

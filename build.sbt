@@ -1,4 +1,4 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / version := "0.1.1-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.13.12"
 
@@ -15,7 +15,6 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-stream-typed" % AkkaVersion,
       "com.typesafe.akka" %% "akka-http" % AkkaHTTPVersion,
       "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHTTPVersion,
-      "com.typesafe.play" %% "play-json" % "2.10.0",
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
       "ch.qos.logback" % "logback-classic" % "1.4.7"
     ),
