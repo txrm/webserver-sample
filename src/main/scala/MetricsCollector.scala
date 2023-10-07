@@ -7,7 +7,7 @@ object MetricsCollector {
     try {
       val output = new StringBuilder
 
-      val process = Process("top -b -n 1").run(ProcessLogger(line => output.append(line).append("\n")))
+      val process = Process("top -l 1").run(ProcessLogger(line => output.append(line).append("\n")))
 
       val exitCode = process.exitValue()
 

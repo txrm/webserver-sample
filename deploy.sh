@@ -15,6 +15,7 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin git uidmap
 
 dockerd-rootless-setuptool.sh install
+curl http://localhost:8000/metrics
 
 git clone https://github.com/txrm/webserver-sample.git
 cd webserver-sample
@@ -35,19 +36,24 @@ if [ "$(docker ps -q -f name=nginx-reverse)" ]; then
 else
     #FINALLY
     cat <<'EOF' > nginx-reverse-proxy.conf
-server {
-    listen 80;
+http {
+    upstream webserver-sample {
+        server webserver-sample-container:8000;
+    }
 
-    access_log /var/log/nginx/access.log;
-    error_log /var/log/nginx/error.log;
+    server {
+        listen 80;
 
-    location / {
-         proxy_pass http://webserver-sample-container:8000;
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
 
-         proxy_set_header   Host $host;
-         proxy_set_header   X-Real-IP $remote_addr;
-         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-         proxy_set_header   X-Forwarded-Host $server_name;
+        location / {
+            proxy_pass http://webserver-sample;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Host $server_name;
+        }
     }
 }
 EOF
