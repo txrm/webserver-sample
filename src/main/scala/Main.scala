@@ -26,12 +26,12 @@ object Main {
       }
     }
 
-    val bindingFuture = Http().newServerAt("localhost", 8000).bind(route)
+    val bindingFuture = Http().newServerAt("172.17.0.2", 8000).bind(route)
 
     bindingFuture
       .onComplete {
         case Success(binding) =>
-          println(s"Server online at http://localhost:8000/")
+          println(s"Server online at http://172.17.0.2:8000/")
         case Failure(ex) =>
           println(s"Server could not bind to port 8000: ${ex.getMessage}")
           system.terminate()
