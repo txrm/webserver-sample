@@ -7,7 +7,7 @@ DISCLAIMER: This is an abhorrent use of Scala and Docker. I could've achieved th
 
 Screenshots:
 
-![End result](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/result.jpg?raw=true)
+![End result](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/result.png?raw=true)
 ![Webserver Logs](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/webserver.png?raw=true)
 ![Webserver Build Logs](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/webserver_build.png?raw=true)
 ![Nginx Logs](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/nginx.png?raw=true)
