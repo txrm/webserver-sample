@@ -1,12 +1,23 @@
-## Nginx as Reverse Proxy + Sample Webserver
+## SPRINT 5 LAB 1
+### Nginx as Reverse Proxy + Sample Webserver
 
-Tested on fresh Debian installation.
+Script tested on fresh Debian installation.
+
+DISCLAIMER: This is an abhorrent use of Scala and Docker. I could've achieved the same result in a faster, safer and more flexible way but that's not fun.
+
+Screenshots:
+
+![End result](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/result.jpg?raw=true)
+![Webserver Logs](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/webserver.png?raw=true)
+![Webserver Build Logs](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/webserver_build.png?raw=true)
+![Nginx Logs](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/nginx.png?raw=true)
+![AWSMachine](https://github.com/txrm/webserver-sample/blob/main/worksonmymachine/AWSremotemachine.png?raw=true)
 
 
-
-### TODO
-- [ ] Remake in Ansible
+#### TODO
+- [ ] Remake provisioning in Ansible.
 - [ ] Shorten build time, preferably using something else instead of Scala.
+- [ ] Implement TLS.
 
 
 
